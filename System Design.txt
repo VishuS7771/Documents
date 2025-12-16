@@ -1,0 +1,357 @@
+ Two Types of system design
+ 
+ 1. High level system design
+ 2. Low Level system design
+-------------------------------
+Full forms:-
+CDN-Content Delivery Network
+DNS-Domain Name System
+ISP-Internet Service Provider
+TTL- Time to Live
+SOAP- Simple Object Access Protocol
+WSDL- Web Services Description Language
+JSON- JavaScript Object Notation  
+XML- eXtensible Markup Language
+ERP- Enterprise Resource Planning
+TCP- Transmission Control Protocol
+SMTP- Simple Mail Transfer Protocol
+
+---------------------------------------
+1.Designing Softwere architecture
+2.Relation Data Modeling
+3.Horizontal Scaling vs Vertical Scaling
+4.Load Balancing
+5.Stateless and Stateful Systems
+6.Load Balancing in  Stateful Systems
+7.Consistant Hashing
+8.What is caching
+9.Introduction of CAP theorem
+--------------------------------------------------------------------------
+1.Designing Softwere architecture
+
+ Setting requiremnt befor design
+ Gather Requirement
+ Break the requeirement into layers
+ functional requeirement
+ non functional requeirement
+ 
+ use diagram to visualise your concepts
+ focus on high level design to avoid over engineering
+ The first design is just an iteration
+ disscuss functional and non fucntional design with stakeholders
+
+-----------------------------------------------------------------------
+2.Relation Data Modeling
+   relational schema design
+   convert high level entities to relational database schema
+   list out all the features
+   identify entities supporting the features
+   nouns- attributes, Verbs-status or relation between two entities
+
+----------------------------------------------------------------------
+3.Horizontal Scaling vs Vertical Scaling
+
+  Vertical Scaling - upgrading Hardware
+  
+  Horizontal Scaling- uniformly distrubute the incomming request to mutiple servers 
+  
+  there is a problem as well signle point of failure
+  for overcome this we need a rounting server and standby routing server when rounting server down swap to standby rounting server
+  how swap -> change the static ip to the standby rounting server
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+4.Load Balancing
+  client -> DNS -> proxy server/route server-> application server
+  the dns server happens to  first point of contact it should be very scalable the amoubnt of load on dns server is high
+  letency should be low
+  
+  letency = DNS Resolution time + application required server time
+  
+  Cache the dns mapping at various statges
+  browser
+  oprating system
+  Internet Service Provider
+  DNS Server
+  
+Grogrhaphical request -200 miliseconds
+avoid this dns is replicated accrooss glob -hence updating ip not easy task it was take hour/days
+
+deploy mutiple ips on which client request will resolve
+
+provide a list of ips top connect (and it should shufflled  order every time)
+ 
+its called as waterfall model
+
+GeoBased Traffic-
+ if people is using the application in india will get ip addrress to corressponding to india data center(eg.zoho.in, zoho.com)
+ if people is using the application in USA will get ip addrress to corressponding to us data center(eg.zoho.in, zoho.com)
+ 
+there is two options after geobased traffic request 
+ 1. route to appliaction server
+    get best hardwere for the appliaction server
+	
+ 2. route to routing servers
+    it will route the request to mutiple ips where application is hosted
+	we can add more instace 
+	gateway machine used as security as well
+	
+Two types of Load Balancer
+1.Hardware Load Balancer
+2.Softwere Load Balancer
+  a.layer four - transport layer -only get source ip 
+      only have to relay on source ip and port 
+      faster then seven
+	  exposing minimul info to load balcer slightly secure from seven
+  
+  b.layer seven - application layer   -info of header, query param and path params , http methods
+      proccing full request
+      
+Q.How do we rout traffic from load balancer to my available application server
+ load balancer keep registry of all apllication server like as1,as2,as3
+ routing statergy->  try and optimize on the resources and based on resources the request will be routed
+   
+   Type of statergy->
+   1.round robin
+   2.weighted round robin
+   3.least connection
+   4.weighted least connection
+   5.least response time style 
+   
+All there statergies works when the all server should be well equiped for answer the request queries
+
+  if i had query then i need same reponse from all the application server - stateless system
+------------------------------------------------------------------------------------------------------------------------------------------------------------  
+5.Stateless and Stateful Systems
+
+   A.if i had query then i need same reponse from all the application server/any server does not store context or state or any data hence called   - stateless system
+   
+   B.such system where the context or state lies whithin the application server called statfull system
+   
+   Stateless system
+   pro's-
+    1.Easier to Scale
+	2.Resilent to failure
+	
+   cons-
+	1.Higher letency (fetching data from storage layer/network i.o call)
+	
+   Stateful system
+	pro's-
+	1.low letency
+	
+	cons-
+	1.not resilent to server failure
+	2.harder to sacle
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+6.Load Balancing in  Stateful Systems
+   load balancer rount using uniqe id which is hash based load balancing
+
+------------------------------------------------------------------
+ 
+7.Consistant Hashing
+Minimizes re-mapping when nodes are added/removed
+
+Used in:
+
+Load balancers
+
+Distributed caches
+
+Databases (Cassandra, DynamoDB)
+-----------------------------------------------------
+  
+8.What is caching
+Storing frequently accessed data in fast storage to reduce latency and load.
+
+Common Cache Types:
+
+In-memory cache (Redis, Memcached)
+
+CDN cache
+
+Browser cache
+----------------------------------------------------------------
+9.CAP theorem
+  C-Consistency
+  A-Availability
+  P-Partition tolerance
+ 
+----------------------------------------------------------------
+  System Design Framwork
+  
+  1. Gather Requirement
+  2. Estimating the scale * Storage
+  3. Design Goal
+--------------------------------------------------------------------------------
+1) High Level Design (HLD)
+
+HLD explains the overall architecture of the system — how different large components interact.
+
+What it includes:-
+
+1.System architecture diagram
+
+2.Major components (API Gateway, Services, DB, Cache, Queue)
+
+3.Data flow between components
+
+4.Technology choices (SQL/NoSQL, Redis, Kafka, etc.)
+
+5.Non-functional requirements (scalability, availability, security)
+
+How to answer
+
+High-Level Design focuses on identifying major system components, their responsibilities, communication flow, and how the system will meet scalability, performance, and reliability requirements. It tells what the system does, not how internally it works.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+Low Level Design (LLD)
+
+LLD explains internal working of each component.
+
+What it includes
+
+1.Class diagrams
+
+2.Method-level logic
+
+3.Database schema
+
+4.API contracts
+
+5.Design patterns (Factory, Singleton, Strategy, Builder)
+
+6.State transitions, sequence diagrams
+
+How to answer
+
+Low-Level Design focuses on internal component details such as class structures, algorithms, database tables, APIs, and design patterns. It explains how the system will be implemented at the code level.
+ 
+----------------------------------------------------------------------------------------
+   
+What is an ERP System?
+
+ERP (Enterprise Resource Planning) is an integrated system that manages core business processes across departments using a single source of truth.
+
+Common ERP Modules
+
+Finance & Accounting
+HR & Payroll
+Inventory & Warehouse
+Procurement
+Sales & CRM
+Manufacturing
+Reporting & Compliance
+
+-----------------------------------------
+Security measures of the library in java
+
+Java library security is enforced through JVM bytecode verification, classloader isolation, cryptographic APIs, secure authentication libraries, dependency vulnerability scanning, and strict input validation.
+--------------------------------------------
+Micro service Architecture designs
+
+Microservices architecture breaks an application into independent, loosely coupled services that communicate over APIs or events, enabling scalability, resilience, and faster delivery.
+
+--------------------------------------------
+java programming
+Java is a robust, object-oriented, platform-independent language with automatic memory management, strong concurrency support, and a rich ecosystem, making it ideal for enterprise and microservices applications.
+
+Java plays a critical role in system design by providing strong OOP abstractions, concurrency support, memory management, and a rich ecosystem that enables building scalable, secure, and resilient distributed systems.
+
+--------------------------------------------
+ACID Principal
+
+Atomicity	Order must be complete or rolled back
+Consistency	Stock & finance must match
+Isolation	Concurrent users
+Durability	No data loss
+
+----------------------------------------
+database - designing in ERP system
+
+ERP database design focuses on highly normalized, ACID-compliant, modular schemas with strong referential integrity, auditability, and performance optimization to support multiple enterprise business functions.
+
+---------------------------------------------
+Cloud services 
+
+Cloud services provide on-demand, scalable, highly available infrastructure and managed services that simplify system design, improve reliability, and reduce operational overhead.
+
+-----------------------------------------------
+SOLID Principles
+
+S → Single Responsibility Principle -A class should have only one reason to change.
+O → Open/Closed Principle -Software entities should be open for extension but closed for modification.
+L → Liskov Substitution Principle -A subclass must be replaceable for its parent class without breaking the application.
+I → Interface Segregation Principle -Clients should not be forced to depend on methods they do not use.
+D → Dependency Inversion Principle -High-level modules should not depend on low-level modules.Both should depend on abstractions.
+----------------------------------------------
+
+Design patterns in Java provide reusable solutions for object creation, communication, and system structuring, and they play a critical role in system design by enabling scalability, flexibility, fault tolerance, and clean architecture. 
+
+----------------------------------------------------------------------------------------------
+SOAP (Simple Object Access Protocol)
+What is SOAP?
+
+SOAP is a protocol (not an architectural style) for exchanging structured information between applications over a network using XML.
+
+It is strict, contract-based, and enterprise-grade, commonly used in banking, telecom, and legacy ERP systems.
+
+SOAP Pros & Cons
+
+✅ Advantages
+
+Strong security
+Strict contract (WSDL)
+Reliable messaging
+Distributed transaction support
+
+❌ Disadvantages
+
+Heavy XML
+Slow performance
+Complex implementation
+Poor browser/mobile support
+
+When to Use SOAP?
+
+✔ Banking
+✔ Financial transactions
+✔ Legacy enterprise systems
+✔ High security & ACID compliance
+
+--------------------------------------------------------------------------------------------------
+REST (Representational State Transfer)
+🔹 What is REST?
+
+REST is an architectural style for building APIs using HTTP standards.
+
+It is lightweight, scalable, stateless, and ideal for microservices & web/mobile apps.
+
+REST Pros & Cons
+
+✅ Advantages
+
+Lightweight (JSON)
+High performance
+Easy integration
+Best for microservices
+Browser & mobile friendly
+
+❌ Disadvantages
+
+No built-in transaction support
+Security handled externally
+Eventual consistency
+
+---------------------------------------------------------------------------------------------------
+SOAP vs REST (Direct Comparison)
+
+Feature           	SOAP	     REST
+Type	          Protocol	   Architectural style
+Data Format       XML only	   JSON, XML, etc.
+Performance	      Slow   	    Fast
+Security	     WS-Security	HTTPS, JWT
+Transaction	      ACID	        Eventual
+Scalability	     Limited	     High
+Microservices	   ❌           ✅
+Complexity        High	        Low
